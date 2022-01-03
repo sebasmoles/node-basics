@@ -1,4 +1,6 @@
 // Example for person.js
+
+
 // const Person = require('./person');
 
 // const person1 = new Person('Sebastian', 22);
@@ -9,6 +11,8 @@
 
 
 // Example for logger.js
+
+
 // const Logger = require('./logger');
 // const logger = new Logger();
 
@@ -24,7 +28,8 @@ const fs = require('fs');
 
 const server = http.createServer((req, res) => {
 
-    // Not optimal way:
+    // Not optimal way: (it does not render .js and .css files within a html file)
+
 
     // if(req.url === '/') {
     //     fs.readFile(path.join(__dirname, 'public', 'index.html'), (err, content) => {
@@ -42,6 +47,8 @@ const server = http.createServer((req, res) => {
     //     });
     // }
 
+    // API idea
+
     // if(req.url === '/api/users') {
     //     const users = [
     //         { name: 'Bob Smith', age: 40 },
@@ -52,7 +59,9 @@ const server = http.createServer((req, res) => {
     //     res.end(JSON.stringify(users));
     // }
 
-    // Optimal way: 
+
+
+    // Optimal way: (no frameworks, just node)
     
     // Build file dynamic path
     let filePath = path.join(__dirname, 'public', req.url === '/' ? 'index.html' : req.url);
@@ -84,12 +93,24 @@ const server = http.createServer((req, res) => {
 
     // Read file
     fs.readFile(filePath, (err, content) => {
+        // How to handle errors
         if (err) {
             if (err.code == 'ENOENT') {
-                // Page not found
+                // 404 page
+                fs.readFile(path.join(__dirname, 'public', '404.html'), (err, content) => {
+                    res.writeHead(200, { 'Content-Type': 'text/html' });
+                    res.end(content, 'utf8');
+                });
+            } else {
+                // Some other server error
+                res.writeHead(500);
+                res.end(`Server error: ${err.code}`)
             }
-        }
-
+        } else {
+            // Success
+            res.writeHead(200, { 'Content-Type': contentType });
+            res.end(content, 'utf8');
+        }  
     })
 });
 
