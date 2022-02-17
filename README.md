@@ -1,6 +1,6 @@
 # Node.js Basics
 
-- Basic project for learning [Node.js](https://nodejs.org/en/) foundations with no framework.
+✏️ Basic project for learning [Node.js](https://nodejs.org/en/) foundations with no framework.
 
 ## Quick Start
 
@@ -15,3 +15,6 @@ npm start
 
 1.0.0
 
+## License
+
+This project is licensed under the MIT License
